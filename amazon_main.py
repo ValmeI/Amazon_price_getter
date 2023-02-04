@@ -7,6 +7,7 @@ from fake_useragent import UserAgent
 from twilio import send_email
 import re
 import json
+from requests_html import HTMLSession
 
 
 def get_product_url(amazon_product_code_list):
@@ -20,13 +21,19 @@ def get_product_price(defined_queue, url):
     fake_user_agent = UserAgent()
     user_agent = fake_user_agent.random
     headers = {"User-Agent": user_agent} 
+    #html_session = HTMLSession()
+    #response = html_session.get(url, headers=headers)
+    #response.html.render()
+    #soup  = BeautifulSoup(response.html.html, 'html.parser')
     page = requests.get(url, headers=headers)
     soup  = BeautifulSoup(page.text, 'html.parser')
     try:
         product_title = soup.find('span', id='productTitle').getText().strip()
         product_price = soup.find('span', class_ = "a-offscreen").getText().strip()
+        #price_list = soup.find('div', class_='a-section aok-hidden twister-plus-buying-options-price-data').getText().strip()
+        #product_price  = json.loads(price_list)[0]['priceAmount']
         # to get only Google Pixel 7 Pro for example and not Google Pixel 7 Pro - 128GB and so on
-        # split by – or - and get the first element
+        # split by character - or – or | or : and get the first element to cut product title shorter
         get_first_product_title = re.split(r'[-–|:]', product_title)[0].strip()
         product_price_int = float(product_price.replace('€', '').replace(',', '.'))
         # put the result in the queue

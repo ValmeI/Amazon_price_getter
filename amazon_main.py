@@ -57,7 +57,7 @@ def email_body_html_formating(input_list_of_items):
 
 if __name__ == '__main__':
 
-    target_price = 800
+    target_price = 280
 
     #amazon_product_code_list = ['B0BDK2CZ8N', 'B0BDJ3ND5X', 'B0BDJ55SSD'] # Pixel 7 Pro
     #amazon_product_code_list = ['B0BDJG3TWP', 'B0BDK63RF3', 'B0BDJFKY7B'] # Pixel 7
@@ -98,9 +98,7 @@ if __name__ == '__main__':
     else:
         min_priced_product = ['No items below target price', 0]
 
-    
     want_email = False
-
     if want_email and len(send_email_items_list) > 0:
         send_email(sent_from='ignarvalme@gmail.com',
                    sent_to='ignarvalme@gmail.com',

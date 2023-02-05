@@ -1,13 +1,13 @@
-import requests
-from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
 from colored import fg, attr
 import threading
 import queue
-from fake_useragent import UserAgent
 from twilio import send_email
 import re
-import json
-from requests_html import HTMLSession
 
 
 def get_product_url(amazon_product_code_list):
@@ -18,21 +18,19 @@ def get_product_url(amazon_product_code_list):
 
 
 def get_product_price(defined_queue, url):
-    fake_user_agent = UserAgent()
-    user_agent = fake_user_agent.random
-    headers = {"User-Agent": user_agent} 
-    #html_session = HTMLSession()
-    #response = html_session.get(url, headers=headers)
-    #response.html.render()
-    #soup  = BeautifulSoup(response.html.html, 'html.parser')
-    page = requests.get(url, headers=headers)
-    soup  = BeautifulSoup(page.text, 'html.parser')
     try:
-        product_title = soup.find('span', id='productTitle').getText().strip()
-        product_price = soup.find('span', class_ = "a-offscreen").getText().strip()
+        options = Options()
+        options.add_argument("--headless")
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        # log_level=0 to disable logging, for example: ====== WebDriver manager ======
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager(log_level=0).install()), options=options)
+        driver.get(url)
+        product_title = driver.find_element(By.ID, 'productTitle').text
+        product_price_whole = driver.find_element(By.CLASS_NAME, 'a-price-whole').text
+        product_price_fraction = driver.find_element(By.CLASS_NAME, 'a-price-fraction').text
+        product_price = f'{product_price_whole}.{product_price_fraction}'
         #price_list = soup.find('div', class_='a-section aok-hidden twister-plus-buying-options-price-data').getText().strip()
         #product_price  = json.loads(price_list)[0]['priceAmount']
-        # to get only Google Pixel 7 Pro for example and not Google Pixel 7 Pro - 128GB and so on
         # split by character - or – or | or : and get the first element to cut product title shorter
         get_first_product_title = re.split(r'[-–|:]', product_title)[0].strip()
         product_price_int = float(product_price.replace('€', '').replace(',', '.'))
@@ -108,4 +106,3 @@ if __name__ == '__main__':
                    sent_to='ignarvalme@gmail.com',
                    sent_subject=f'Amazon Price Alert: {min_priced_product[0]} with price {min_priced_product[1]}',
                    sent_body=email_body_result)
-

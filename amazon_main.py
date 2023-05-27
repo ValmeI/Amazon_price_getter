@@ -71,9 +71,10 @@ if __name__ == '__main__':
 
     TARGET_PRICE = 280
 
-    amazon_product_code_list = ['B0BDK2CZ8N', 'B0BDJ3ND5X', 'B0BDJ55SSD']  # Pixel 7 Pro
+    # amazon_product_code_list = ['B0BDK2CZ8N', 'B0BDJ3ND5X', 'B0BDJ55SSD']  # Pixel 7 Pro
     # amazon_product_code_list = ['B0BDJG3TWP', 'B0BDK63RF3', 'B0BDJFKY7B'] # Pixel 7
-    # amazon_product_code_list = ['B08C7KG5LP', 'B091CQH6VT', 'B08C7KCJF5']  # Sony WH-1000XM4
+    # amazon_product_code_list = ['B08C7KG5LP', 'B091CQH6VT', 'B08C7KCJF5']  # Sony WH-1000XM4 big ones
+    amazon_product_code_list = ['B095D1HCYG', 'B095DNPH4R'] # Sony WF-1000XM4 Buds
     # Create a queue to hold the results
     result_queue = queue.Queue()
     amazon_final_urls_list = get_product_url(amazon_product_code_list)

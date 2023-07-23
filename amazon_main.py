@@ -28,10 +28,10 @@ def get_product_price(defined_queue, input_url):
     try:
         options = Options()
         options.add_argument("--headless")
-        options.add_experimental_option('excludeSwitches', ['enable-logging'])
         # log_level=0 to disable logging, for example: ====== WebDriver manager ======
-        driver = webdriver.Chrome(service=Service(
-            ChromeDriverManager(log_level=0).install()), options=options)
+        options.add_argument("--log-level=3")  # Adjust the log level
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])  # This line disables the DevTools logging
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
         driver.get(input_url)
         product_title = driver.find_element(By.ID, 'productTitle').text
         product_price_whole = driver.find_element(

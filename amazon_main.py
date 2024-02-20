@@ -75,7 +75,7 @@ if __name__ == '__main__':
     # amazon_product_code_list = ['B0BDJG3TWP', 'B0BDK63RF3', 'B0BDJFKY7B'] # Pixel 7
     # amazon_product_code_list = ['B08C7KG5LP', 'B091CQH6VT', 'B08C7KCJF5']  # Sony WH-1000XM4 big ones
     # amazon_product_code_list = ['B095D1HCYG', 'B095DNPH4R'] # Sony WF-1000XM4 Buds
-    amazon_product_code_list = ['B0B2RN4SJT', 'B0B7N6MWQJ', 'B0B7NSBFDQ'] # Synology DS1522+ NAS
+    amazon_product_code_list = ['B0CNH4Z5DP', 'B0CNH7FRSF', 'B0CNH7J95P', 'B0CNH6RHV6'] # Samsung Galaxy S24 Ultra
     # Create a list to hold the results
     result_list = []
     amazon_final_urls_list = get_product_url(amazon_product_code_list)
